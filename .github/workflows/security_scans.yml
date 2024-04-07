@@ -56,7 +56,7 @@ jobs:
         if: env.brief_sca != 'null'
         run: |
           for ((i=0; i<30; i++)); do
-            response=$(curl -s -w "%{http_code}" "${{ secrets.APP_URL }}${{ env.brief_sca }}")
+            response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sca }}")
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
               content=$(echo ${response} | head -c-4)
