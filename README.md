@@ -8,11 +8,11 @@ Para incorporar el análisis SAST y SCA en tu proyecto, sigue estos pasos para c
 
 ### 1. Crear el Archivo de Flujo de Trabajo
 
-Crea un nuevo archivo en tu repositorio bajo el directorio `.github/workflows/` con el nombre que prefieras, por ejemplo, `security_scans.yml`.
+Crea un nuevo archivo en tu repositorio bajo el directorio `.github/workflows/` con el nombre que prefieras, por ejemplo, `security_scans_config.yml`.
 
 ### 2. Configurar el Contenido del Flujo de Trabajo
 
-Pega el siguiente contenido en el archivo `security_scans.yml` creado. Asegúrate de ajustar los valores de los secretos (`PAT`, `APP_URL` y `APP_TOKEN`) según corresponda a tu configuración.
+Pega el siguiente contenido en el archivo `security_scans_config.yml` creado. Asegúrate de ajustar los valores de los secretos (`PAT`, `APP_URL` y `APP_TOKEN`) según corresponda a tu configuración.
 
 ```yaml
 name: Security Scans
