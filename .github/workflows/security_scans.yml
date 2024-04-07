@@ -42,7 +42,7 @@ jobs:
           echo "brief_sca=$brief_sca" >> $GITHUB_ENV
 
       - name: Retrieve Results for SAST
-        if: env.brief_sast == 'true'
+        if: env.brief_sast != 'null'
         run: |
           for ((i=0; i<30; i++)); do
             response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sast }}")
@@ -57,7 +57,7 @@ jobs:
           done
 
       - name: Retrieve Results for SCA
-        if: env.brief_sca == 'true'
+        if: env.brief_sca != 'null'
         run: |
           for ((i=0; i<30; i++)); do
             response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sca }}")
