@@ -42,7 +42,7 @@ Asegúrate de que los secretos `PAT` (Token de Acceso Personal, en caso de anali
 
 - Ve a `Settings > Secrets` en tu repositorio de GitHub.
 - Haz clic en `New repository secret`.
-- Añade `PAT` y `APP_URL` como nombres de los secretos y proporciona los valores correspondientes.
+- Añade `PAT`, `APP_URL` y `APP_TOKEN` como nombres de los secretos y proporciona los valores correspondientes.
 
 ### Notas Adicionales
 
