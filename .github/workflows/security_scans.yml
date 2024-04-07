@@ -4,11 +4,11 @@ on:
   workflow_call:
     inputs:
       enable_sast:
-        required: false
+        required: true
         type: boolean
         default: true
       enable_sca:
-        required: false
+        required: true
         type: boolean
         default: true
       repo_url:
