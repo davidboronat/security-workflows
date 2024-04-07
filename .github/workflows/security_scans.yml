@@ -51,6 +51,10 @@ jobs:
           echo "brief_sca=$brief_sca" >> $GITHUB_ENV
           echo "detailed_sca=$detailed_sca" >> $GITHUB_ENV
 
+  sast_scan:
+    needs: security_scan
+    runs-on: ubuntu-latest
+    steps:
       - name: Retrieve Results for SAST
         if: env.brief_sast != 'null'
         run: |
@@ -67,6 +71,16 @@ jobs:
             sleep 20
           done
 
+      - name: Upload SAST Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-document-sast
+          path: SAST.html
+
+  sca_scan:
+    needs: security_scan
+    runs_on: ubuntu-latest
+    steps:
       - name: Retrieve Results for SCA
         if: env.brief_sca != 'null'
         run: |
@@ -82,12 +96,6 @@ jobs:
             fi
             sleep 20
           done
-
-      - name: Upload SAST Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: report-document-sast
-          path: SAST.html
 
       - name: Upload SCA Report
         uses: actions/upload-artifact@v4
