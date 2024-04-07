@@ -48,5 +48,6 @@ Asegúrate de que los secretos `PAT` (Token de Acceso Personal, en caso de anali
 - **`enable_sast`**: Habilita el análisis SAST. Establece en `false` si deseas omitir este análisis.
 - **`enable_sca`**: Habilita el análisis SCA. Establece en `false` si deseas omitir este análisis.
 - **`repo_url` y `branch_name`**: Estos parámetros se rellenan automáticamente basados en el evento que dispara el flujo de trabajo.
+- El secreto **`APP_URL`** debe ser el mismo para todo el mundo (en este caso mi aplicación encargada de realizar los análisis SAST y SCA). Sin embargo, se trata de una aplicación en desarrollo por lo que no se desea hacer público el dominio de la aplicación todavía.
 
 Con estos pasos, tu repositorio estará listo para realizar análisis SAST y SCA en cada `push` a la rama especificada, ayudándote a mantener tu código más seguro.
