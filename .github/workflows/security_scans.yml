@@ -17,9 +17,9 @@ on:
       branch_name:
         required: true
         type: string
+    secrets:
       pat_token:
         required: false
-        type: secrets
 
 jobs:
   security_scan:
@@ -28,7 +28,7 @@ jobs:
       - name: Call Security Scan API for Selected Scans
         run: |
           response=$(curl -X GET \
-            "${{ secrets.APP_URL }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}&private=${{ inputs.pat_token }}")
+            "${{ secrets.APP_URL }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}&private=${{ secrets.pat_token }}")
           echo "API Response: $response"
           brief_sast=$(echo "$response" | jq -r '.["brief-sast"] // "null"')
           brief_sca=$(echo "$response" | jq -r '.["brief-sca"] // "null"')
