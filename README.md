@@ -31,13 +31,13 @@ jobs:
       repo_url: ${{ github.server_url }}/${{ github.repository }}
       branch_name: ${{ github.ref_name }}
     secrets:
-      pat_token: ${{ secrets.PAT }}       # Token de acceso personal para repos privados
+      pat_token: ${{ secrets.PAT }}       # Token de acceso personal para repos privados. Eliminar variable si se trata de repo público
       server: ${{ secrets.APP_URL }}  # URL del servidor de análisis
 ```
 
 ### 3. Configurar Secretos
 
-Asegúrate de que los secretos `PAT` (Token de Acceso Personal, si es necesario para repositorios privados) y `APP_URL` (URL del servidor de análisis SAST y SCA) estén configurados en tu repositorio o a nivel de organización:
+Asegúrate de que los secretos `PAT` (Token de Acceso Personal, en caso de analizar un repositorio privado) y `APP_URL` (URL del servidor de análisis SAST y SCA) estén configurados en tu repositorio o a nivel de organización:
 
 - Ve a `Settings > Secrets` en tu repositorio de GitHub.
 - Haz clic en `New repository secret`.
