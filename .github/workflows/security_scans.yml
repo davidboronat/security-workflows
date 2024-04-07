@@ -86,12 +86,12 @@ jobs:
       - name: Upload SAST Report
         uses: actions/upload-artifact@v4
         with:
-          name: pdf-document-sast
-          path: SAST.pdf
+          name: report-document-sast
+          path: SAST.html
 
       - name: Upload SCA Report
         uses: actions/upload-artifact@v4
         with:
-          name: pdf-document-sca
-          path: SCA.pdf
+          name: report-document-sca
+          path: SCA.html
 
