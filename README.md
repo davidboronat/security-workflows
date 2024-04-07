@@ -38,7 +38,7 @@ jobs:
 
 ### 3. Configurar Secretos
 
-Asegúrate de que los secretos `PAT` (Token de Acceso Personal, en caso de analizar un repositorio privado) y `APP_URL` (URL del servidor de análisis SAST y SCA) estén configurados en tu repositorio o a nivel de organización:
+Asegúrate de que los secretos `PAT` (Token de Acceso Personal, en caso de analizar un repositorio privado), `APP_URL` (URL del servidor de análisis SAST y SCA) y `APP_TOKEN` (Token de Autenticación para guardar el análisis en el historial de la plataforma) estén configurados en tu repositorio o a nivel de organización:
 
 - Ve a `Settings > Secrets` en tu repositorio de GitHub.
 - Haz clic en `New repository secret`.
