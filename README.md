@@ -33,6 +33,7 @@ jobs:
     secrets:
       pat_token: ${{ secrets.PAT }}  # Token de acceso personal para repos privados. Eliminar variable si se trata de repo público
       server: ${{ secrets.APP_URL }}  # URL del servidor de análisis
+      app_token: ${{ secrets.APP_TOKEN }}  # Token de autenticación para guardar los resultados en la plataforma cloud. Eliminar si no se trata de un usuario autenticado
 ```
 
 ### 3. Configurar Secretos
@@ -51,3 +52,8 @@ Asegúrate de que los secretos `PAT` (Token de Acceso Personal, en caso de anali
 - El secreto **`APP_URL`** debe ser el mismo para todo el mundo (en este caso mi aplicación encargada de realizar los análisis SAST y SCA). Sin embargo, se trata de una aplicación en desarrollo por lo que no se desea hacer público el dominio de la aplicación todavía.
 
 Con estos pasos, tu repositorio estará listo para realizar análisis SAST y SCA en cada `push` a la rama especificada, ayudándote a mantener tu código más seguro.
+
+## Resultados
+
+1. Un resumen de las vulnerabilidades encontradas en los análisis SAST y SCA en formato JSON. Se puede modificar el workflow para detener la ejecución en función de un umbral de vulnerabilidades a elección del usuario.
+2. Dos archivos HTML con un desglose detallado de las vulnerabilidades identificadas por Semgrep y Dependency Check, para una revisión visual y detallada.
