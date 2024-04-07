@@ -12,7 +12,7 @@ Crea un nuevo archivo en tu repositorio bajo el directorio `.github/workflows/` 
 
 ### 2. Configurar el Contenido del Flujo de Trabajo
 
-Pega el siguiente contenido en el archivo `security_scans.yml` creado. Asegúrate de ajustar los valores de los secretos (`PAT` y `APP_URL`) según corresponda a tu configuración.
+Pega el siguiente contenido en el archivo `security_scans.yml` creado. Asegúrate de ajustar los valores de los secretos (`PAT`, `APP_URL` y `APP_TOKEN`) según corresponda a tu configuración.
 
 ```yaml
 name: Security Scans
