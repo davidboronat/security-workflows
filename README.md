@@ -31,7 +31,7 @@ jobs:
       repo_url: ${{ github.server_url }}/${{ github.repository }}
       branch_name: ${{ github.ref_name }}
     secrets:
-      pat_token: ${{ secrets.PAT }}       # Token de acceso personal para repos privados. Eliminar variable si se trata de repo público
+      pat_token: ${{ secrets.PAT }}  # Token de acceso personal para repos privados. Eliminar variable si se trata de repo público
       server: ${{ secrets.APP_URL }}  # URL del servidor de análisis
 ```
 
