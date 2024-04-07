@@ -29,8 +29,12 @@ jobs:
     steps:
       - name: Call Security Scan API for Selected Scans
         run: |
+          private_token_param=""
+          if [ ! -z "${{ secrets.pat_token }}" ]; then
+            private_token_param="&private=${{ secrets.pat_token }}"
+          fi
           response=$(curl -X GET \
-            "${{ secrets.server }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}&private=${{ secrets.pat_token }}")
+            "${{ secrets.server }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}${private_token_param}")
           echo "API Response: $response"
           brief_sast=$(echo "$response" | jq -r '.["brief-sast"] // "null"')
           brief_sca=$(echo "$response" | jq -r '.["brief-sca"] // "null"')
@@ -56,7 +60,7 @@ jobs:
         if: env.brief_sca != 'null'
         run: |
           for ((i=0; i<30; i++)); do
-            response=$(curl -s -w "%{http_code}" "${{ secrets.APP_URL }}${{ env.brief_sca }}")
+            response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sca }}")
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
               content=$(echo ${response} | head -c-4)
