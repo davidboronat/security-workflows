@@ -79,7 +79,7 @@ jobs:
 
   sca_scan:
     needs: security_scan
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Retrieve Results for SCA
         if: env.brief_sca != 'null'
