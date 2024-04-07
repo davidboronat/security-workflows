@@ -40,7 +40,7 @@ jobs:
             app_auth_token_param="&auth=${{ secrets.app_token }}"
           fi
           response=$(curl -X GET \
-            "${{ secrets.server }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}${private_token_param}${app_auth_token_param}&file=pdf")
+            "${{ secrets.server }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}${private_token_param}${app_auth_token_param}&file=html")
           echo "API Response: $response"
           brief_sast=$(echo "$response" | jq -r '.["brief-sast"] // "null"')
           detailed_sast=$(echo "$response" | jq -r '.["detailed-sast"] // "null"')
@@ -59,9 +59,9 @@ jobs:
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
               content=$(echo ${response} | head -c-4)
+              curl -o SAST.html "${{ secrets.server }}${{ env.detailed_sast }}"
               echo "SAST Results:"
               echo "$content"
-              curl -o SAST.pdf "${{ secrets.server }}${{ env.detailed_sast }}"
               break
             fi
             sleep 20
@@ -75,22 +75,22 @@ jobs:
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
               content=$(echo ${response} | head -c-4)
+              curl -o SCA.html "${{ secrets.server }}${{ env.detailed_sca }}"
               echo "SCA Results:"
               echo "$content"
-              curl -o SCA.pdf "${{ secrets.server }}${{ env.detailed_sca }}"
               break
             fi
             sleep 20
           done
 
       - name: Upload SAST Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: pdf-document-sast
           path: SAST.pdf
 
       - name: Upload SCA Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: pdf-document-sca
           path: SCA.pdf
