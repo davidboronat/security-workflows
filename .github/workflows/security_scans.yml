@@ -22,6 +22,8 @@ on:
         required: false
       server:
         required: true
+      app_token:
+        required: false
 
 jobs:
   security_scan:
@@ -33,13 +35,21 @@ jobs:
           if [ ! -z "${{ secrets.pat_token }}" ]; then
             private_token_param="&private=${{ secrets.pat_token }}"
           fi
+          app_auth_token_param=""
+          if [ ! -z "${{ secrets.app_token }}" ]; then
+            app_auth_token_param="&auth=${{ secrets.app_token }}"
+          fi
           response=$(curl -X GET \
-            "${{ secrets.server }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}${private_token_param}")
+            "${{ secrets.server }}/sastsca?sast=${{ inputs.enable_sast }}&sca=${{ inputs.enable_sca }}&repo=${{ inputs.repo_url }}&branch=${{ inputs.branch_name }}${private_token_param}${app_auth_token_param}")
           echo "API Response: $response"
           brief_sast=$(echo "$response" | jq -r '.["brief-sast"] // "null"')
+          detailed_sast=$(echo "$response" | jq -r '.["detailed-sast"] // "null"')
           brief_sca=$(echo "$response" | jq -r '.["brief-sca"] // "null"')
+          detailed_sca=$(echo "$response" | jq -r '.["detailed-sca"] // "null"')
           echo "brief_sast=$brief_sast" >> $GITHUB_ENV
+          echo "detailed_sast=$detailed_sast" >> $GITHUB_ENV
           echo "brief_sca=$brief_sca" >> $GITHUB_ENV
+          echo "detailed_sca=$detailed_sca" >> $GITHUB_ENV
 
       - name: Retrieve Results for SAST
         if: env.brief_sast != 'null'
@@ -51,6 +61,7 @@ jobs:
               content=$(echo ${response} | head -c-4)
               echo "SAST Results:"
               echo "$content"
+              echo "${{ env.detailed_sast }}"
               break
             fi
             sleep 20
@@ -66,6 +77,7 @@ jobs:
               content=$(echo ${response} | head -c-4)
               echo "SCA Results:"
               echo "$content"
+              echo "${{ env.detailed_sca }}"
               break
             fi
             sleep 20
