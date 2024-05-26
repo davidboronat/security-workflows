@@ -1,4 +1,4 @@
-# Guía de Uso del Flujo de Trabajo Reutilizable para Análisis SAST y SCA
+# Guía de Uso del Flujo de Trabajo (Workflow) Reutilizable para Análisis SAST y SCA
 
 Este flujo de trabajo permite realizar análisis de Seguridad Estática de Aplicaciones (SAST) y Análisis de Composición de Software (SCA) en tu repositorio, facilitando la identificación y gestión de vulnerabilidades de seguridad en las dependencias del proyecto y el código fuente.
 
