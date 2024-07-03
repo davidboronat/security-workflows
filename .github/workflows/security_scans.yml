@@ -58,6 +58,7 @@ jobs:
             response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sast }}")
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
+              vuln_error=$(echo "$content" | jq -r '.["high"]')
               content=$(echo ${response} | head -c-4)
               curl -o SAST.html "${{ secrets.server }}${{ env.detailed_sast }}"
               echo "SAST Results:"
@@ -74,6 +75,8 @@ jobs:
             response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sca }}")
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
+              vuln_critical=$(echo "$content" | jq -r '.["critical"]')
+              vuln_high=$(echo "$content" | jq -r '.["high"]')
               content=$(echo ${response} | head -c-4)
               curl -o SCA.html "${{ secrets.server }}${{ env.detailed_sca }}"
               echo "SCA Results:"
@@ -94,4 +97,20 @@ jobs:
         with:
           name: report-document-sca
           path: SCA.html
+
+      - name: Blocking pipelines
+        run:
+          has_vuln="false"
+          if [ $vuln_error -gt 0 ]; then
+            echo "SAST ... Blocking pipeline as High Vulnerabilities were found."
+            has_vuln="true"
+          fi
+          if [ $vuln_critical -gt 0 ] || [ $vuln_high -gt 0 ]; then
+            echo "SCA ... Blocking pipeline as Critical AND/OR High Vulnerabilities were found."
+            has_vuln="true"
+          fi
+          if [ "$has_vuln" = "true" ]; then
+            exit 1 
+          fi
+          exit 0
 
