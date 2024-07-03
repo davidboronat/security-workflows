@@ -59,6 +59,7 @@ jobs:
             http_code=${response: -3}
             if [ $http_code -eq 200 ]; then
               vuln_error=$(echo "$content" | jq -r '.["high"]')
+              echo "vuln_error=$vuln_error" >> $GITHUB_ENV
               content=$(echo ${response} | head -c-4)
               curl -o SAST.html "${{ secrets.server }}${{ env.detailed_sast }}"
               echo "SAST Results:"
@@ -77,6 +78,8 @@ jobs:
             if [ $http_code -eq 200 ]; then
               vuln_critical=$(echo "$content" | jq -r '.["critical"]')
               vuln_high=$(echo "$content" | jq -r '.["high"]')
+              echo "vuln_critical=$vuln_critical" >> $GITHUB_ENV
+              echo "vuln_high=$vuln_high" >> $GITHUB_ENV
               content=$(echo ${response} | head -c-4)
               curl -o SCA.html "${{ secrets.server }}${{ env.detailed_sca }}"
               echo "SCA Results:"
@@ -99,13 +102,13 @@ jobs:
           path: SCA.html
 
       - name: Blocking pipelines
-        run:
+        run: |
           has_vuln="false"
-          if [ $vuln_error -gt 0 ]; then
+          if [ env.vuln_error -gt 0 ]; then
             echo "SAST ... Blocking pipeline as High Vulnerabilities were found."
             has_vuln="true"
           fi
-          if [ $vuln_critical -gt 0 ] || [ $vuln_high -gt 0 ]; then
+          if [ env.vuln_critical -gt 0 ] || [ env.vuln_high -gt 0 ]; then
             echo "SCA ... Blocking pipeline as Critical AND/OR High Vulnerabilities were found."
             has_vuln="true"
           fi
