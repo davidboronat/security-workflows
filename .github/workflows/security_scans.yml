@@ -104,11 +104,11 @@ jobs:
       - name: Blocking pipelines
         run: |
           has_vuln="false"
-          if [ env.vuln_error -gt 0 ]; then
+          if [ "$vuln_error" -gt 0 ]; then
             echo "SAST ... Blocking pipeline as High Vulnerabilities were found."
             has_vuln="true"
           fi
-          if [ env.vuln_critical -gt 0 ] || [ env.vuln_high -gt 0 ]; then
+          if [ "$vuln_critical" -gt 0 ] || [ "$vuln_high" -gt 0 ]; then
             echo "SCA ... Blocking pipeline as Critical AND/OR High Vulnerabilities were found."
             has_vuln="true"
           fi
