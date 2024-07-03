@@ -57,6 +57,7 @@ jobs:
           for ((i=0; i<30; i++)); do
             response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sast }}")
             http_code=${response: -3}
+            content=$(echo ${response} | head -c-4)
             if [ $http_code -eq 200 ]; then
               vuln_error=$(echo "$content" | jq -r '.["high"]')
               echo "vuln_error=$vuln_error" >> $GITHUB_ENV
@@ -75,6 +76,7 @@ jobs:
           for ((i=0; i<30; i++)); do
             response=$(curl -s -w "%{http_code}" "${{ secrets.server }}${{ env.brief_sca }}")
             http_code=${response: -3}
+            content=$(echo ${response} | head -c-4)
             if [ $http_code -eq 200 ]; then
               vuln_critical=$(echo "$content" | jq -r '.["critical"]')
               vuln_high=$(echo "$content" | jq -r '.["high"]')
